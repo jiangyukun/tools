@@ -138,20 +138,6 @@ export async function build(env: Environment) {
     )
   );
 
-  // Inline SVG files content flow.
-  const inlineSVGFiles$ = BuildTimeIconMetaData$.pipe(
-    map<BuildTimeIconMetaData, WriteFileMetaData>(({ icon }) => {
-      return {
-        path: path.resolve(
-          env.paths.INLINE_SVG_OUTPUT_DIR,
-          icon.theme,
-          `./${icon.name}.svg`
-        ),
-        content: renderIconDefinitionToSVGElement(icon)
-      };
-    })
-  );
-
   // Icon files content flow.
   const iconTsTemplate = await fs.readFile(env.paths.ICON_TEMPLATE, 'utf8');
   const iconFiles$ = BuildTimeIconMetaData$.pipe(
@@ -324,23 +310,11 @@ export async function build(env: Environment) {
     content: typesTsTemplate
   });
 
-  // Helpers file content flow
-  const helpersTsTemplate = await fs.readFile(
-    env.paths.HELPERS_TEMPLATE,
-    'utf8'
-  );
-  const helpers$ = of<WriteFileMetaData>({
-    path: env.paths.HELPERS_OUTPUT,
-    content: helpersTsTemplate
-  });
-
   const files$ = iconFiles$.pipe(
-    concat(inlineSVGFiles$),
     concat(manifestFile$),
     concat(indexFile$),
     concat(dist$),
     concat(types$),
-    concat(helpers$)
   );
 
   return new Promise<Subscription>((resolve, reject) => {

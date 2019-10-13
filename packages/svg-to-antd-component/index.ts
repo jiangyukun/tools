@@ -1,4 +1,8 @@
-import { environment } from './env';
-import { build } from './generateIcons';
+import {getEnv} from './env';
+import {build} from './generateIcons';
 
-build(environment);
+export function buildIcon(options: { dirname: string }) {
+    build(getEnv(options))
+}
+
+

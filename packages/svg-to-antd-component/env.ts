@@ -1,47 +1,46 @@
 import path = require('path');
 import { Environment } from './typings';
 
-
-
-export function getEnv(options: {dirname: string}):Environment  {
-  const dirname= options.dirname
+export function getEnv(options: {src: string, dist:string}):Environment  {
+  const src= options.src
+  const dist= options.dist
   return {
 
     paths: {
-      SVG_DIR: path.resolve(dirname, '../../svg'),
+      SVG_DIR: src,
       ICON_TEMPLATE: path.resolve(__dirname, './templates/icon.ts.template'),
       INDEX_TEMPLATE: path.resolve(__dirname, './templates/index.ts.template'),
       MANIFEST_TEMPLATE: path.resolve(
-          dirname,
+          __dirname,
           './templates/manifest.ts.template'
       ),
-      ICON_OUTPUT_DIR: path.resolve(dirname, '../../dist/'),
-      THEME_FILL_OUTPUT: path.resolve(dirname, '../../src/fill/*.ts'),
-      THEME_OUTLINE_OUTPUT: path.resolve(dirname, '../../src/outline/*.ts'),
-      THEME_TWO_TONE_OUTPUT: path.resolve(dirname, '../../src/twotone/*.ts'),
-      INDEX_OUTPUT: path.resolve(dirname, '../../dist/index.ts'),
-      MANIFEST_OUTPUT: path.resolve(dirname, '../../dist/manifest.ts'),
+      ICON_OUTPUT_DIR: dist,
+      THEME_FILL_OUTPUT: path.resolve(dist, './fill/*.ts'),
+      THEME_OUTLINE_OUTPUT: path.resolve(dist, './outline/*.ts'),
+      THEME_TWO_TONE_OUTPUT: path.resolve(dist, './twotone/*.ts'),
+      INDEX_OUTPUT: path.resolve(dist, './index.ts'),
+      MANIFEST_OUTPUT: path.resolve(dist, './manifest.ts'),
       DIST_TEMPLATE: path.resolve(__dirname, './templates/dist.ts.template'),
-      DIST_OUTPUT: path.resolve(dirname, '../../dist/dist.ts'),
+      DIST_OUTPUT: path.resolve(dist, './dist.ts'),
       TYPES_TEMPLATE: path.resolve(__dirname, './templates/types.ts'),
-      TYPES_OUTPUT: path.resolve(dirname, '../../dist/types.ts'),
+      TYPES_OUTPUT: path.resolve(dist, './types.ts'),
       HELPERS_TEMPLATE: path.resolve(__dirname, './templates/helpers.ts'),
-      HELPERS_OUTPUT: path.resolve(dirname, '../../dist/helpers.ts'),
-      INLINE_SVG_OUTPUT_DIR: path.resolve(dirname, '../../dist/inline-svg/'),
+      HELPERS_OUTPUT: path.resolve(dist, './helpers.ts'),
+      INLINE_SVG_OUTPUT_DIR: path.resolve(dist, './inline-svg/'),
       INLINE_SVG_THEME_FILL_OUTPUT: path.resolve(
-          dirname,
-          '../../dist/inline-svg/fill/*.svg'
+          dist,
+          './inline-svg/fill/*.svg'
       ),
       INLINE_SVG_THEME_OUTLINE_OUTPUT: path.resolve(
-          dirname,
-          '../../dist/inline-svg/outline/*.svg'
+          dist,
+          './inline-svg/outline/*.svg'
       ),
       INLINE_SVG_THEME_TWO_TONE_OUTPUT: path.resolve(
-          dirname,
-          '../../dist/inline-svg/twotone/*.svg'
+          dist,
+          './inline-svg/twotone/*.svg'
       )
     },
-    base: path.resolve(dirname, '../'),
+    base: path.resolve(dist, '../'),
     options: {
       // SVGO Options
       // refer from @material-ui/icons

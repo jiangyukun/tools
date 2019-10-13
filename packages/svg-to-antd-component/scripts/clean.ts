@@ -1,4 +1,4 @@
-import { environment } from '../env';
+import { getEnv } from '../env';
 import { clear } from '../utils';
 
-clear(environment);
+// clear(getEnv());

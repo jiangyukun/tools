@@ -4,7 +4,9 @@ let path = require('path')
 var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
+    target: "node",
+    devtool: "source-map",
     entry: [
         path.join(__dirname, './packages/svg-to-antd-component/index.ts')
     ],
@@ -14,12 +16,21 @@ module.exports = {
     },
     module: {
         rules: [
-            {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/},
             {test: /\.ts$/, loaders: ['ts-loader'], exclude: /node_modules/},
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            }
         ]
     },
     resolve: {
-        extensions: ['.js', '.ts', '.json']
+        extensions: ['.ts', '.js', '.json']
     },
     plugins: [
         new FriendlyErrorsWebpackPlugin(),

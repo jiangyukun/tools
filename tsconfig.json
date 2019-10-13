@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": false,
-    "include": [
-      "packages/**/*"
-    ],
-    "exclude": [
-      "node_modules",
-      "**/*.spec.ts"
-    ]
-  }
+    "sourceMap": true,
+    "allowJs": false
+  },
+  "include": [
+    "./packages/**/*"
+  ],
+  "exclude": [
+    "./node_modules"
+  ]
 }

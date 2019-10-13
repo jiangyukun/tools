@@ -1,9 +1,16 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "esnext",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": false
+    "sourceMap": false,
+    "include": [
+      "packages/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+    ]
   }
 }

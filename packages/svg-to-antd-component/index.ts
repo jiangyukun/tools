@@ -3,7 +3,7 @@ import * as path from 'path'
 import {getEnv} from './env';
 import {build} from './generateIcons';
 
-export function buildIcon(options: { src: string, dist: string }) {
+export default function buildIcon(options: { src: string, dist: string }) {
     build(getEnv(options))
 }
 

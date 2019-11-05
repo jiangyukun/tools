@@ -120,7 +120,7 @@ export async function build(env: Environment) {
           icon.icon.attrs.focusable = false;
 
           if (!oldIcons.includes(icon.name)) {
-            icon.icon.attrs.viewBox = '64 64 896 896';
+            icon.icon.attrs.viewBox = '0 0 1024 1024';
           }
           if (icon.icon.attrs.class) {
             icon.icon.attrs = _.omit(icon.icon.attrs, ['class']);

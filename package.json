@@ -1,6 +1,6 @@
 {
   "name": "wanke-tools",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "frontend tools",
   "main": "index.js",
   "scripts": {
@@ -72,11 +72,11 @@
     "tslint": "^5.11.0",
     "typescript": "^3.0.1",
     "webpack-cli": "^3.1.0",
-    "webpackbar": "^2.6.1"
-  },
-  "dependencies": {
+    "webpackbar": "^2.6.1",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "ts-loader": "^6.2.0",
     "webpack": "^4.41.1"
+  },
+  "dependencies": {
   }
 }

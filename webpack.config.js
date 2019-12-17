@@ -6,12 +6,11 @@ var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 module.exports = {
     mode: 'development',
     target: "node",
-    devtool: "source-map",
     entry: [
         path.join(__dirname, './packages/svg-to-antd-component/index.ts')
     ],
     output: {
-        path: path.join(__dirname, './'),
+        path: path.join(__dirname, './lib'),
         filename: 'index.js'
     },
     module: {

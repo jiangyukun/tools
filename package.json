@@ -1,6 +1,6 @@
 {
   "name": "wanke-tools",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "frontend tools",
   "main": "index.js",
   "scripts": {
@@ -50,6 +50,7 @@
     "babel-plugin-macros": "^2.4.0",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^7.0.0",
     "gatsby": "^2.4.2",
     "gatsby-plugin-page-creator": "^2.0.12",
@@ -68,15 +69,15 @@
     "styled-components": "^3.4.4",
     "svgo": "^1.0.5",
     "ts-jest": "^23.1.0",
+    "ts-loader": "^6.2.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1",
+    "webpack": "^4.41.1",
     "webpack-cli": "^3.1.0",
-    "webpackbar": "^2.6.1",
-    "friendly-errors-webpack-plugin": "^1.7.0",
-    "ts-loader": "^6.2.0",
-    "webpack": "^4.41.1"
+    "webpackbar": "^2.6.1"
   },
   "dependencies": {
+    "@babel/types": "^7.7.4"
   }
 }

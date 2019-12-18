@@ -1,37 +1,45 @@
-var webpack = require('webpack');
+var webpack = require('webpack')
 let path = require('path')
 
-var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+
+class PrintModuleNamePlugin {
+  apply(compiler) {
+    compiler.hooks.compilation.tap('PrintModuleNamePlugin', (compilation) => {
+      compilation.hooks.finishModules.tap('PrintModuleNamePlugin', modules => {
+        modules.map(module => console.log(module.request))
+      })
+    })
+  }
+}
 
 module.exports = {
-    mode: 'development',
-    target: "node",
-    entry: [
-        path.join(__dirname, './packages/svg-to-antd-component/index.ts')
-    ],
-    output: {
-        path: path.join(__dirname, './lib'),
-        filename: 'index.js'
-    },
-    module: {
-        rules: [
-            {test: /\.ts$/, loaders: ['ts-loader'], exclude: /node_modules/},
-            {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-            }
-        ]
-    },
-    resolve: {
-        extensions: ['.ts', '.js', '.json']
-    },
-    plugins: [
-        new FriendlyErrorsWebpackPlugin(),
-    ],
-};
+  target: 'node',
+  mode: 'none',
+  entry: [
+    path.join(__dirname, './packages/svg-to-antd-component/index.ts')
+  ],
+  output: {
+    path: path.join(__dirname, './lib'),
+    filename: 'index.js',
+    libraryTarget: 'commonjs2'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|ts)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.json']
+  },
+  plugins: [
+    new FriendlyErrorsWebpackPlugin()
+    // new PrintModuleNamePlugin()
+  ]
+}

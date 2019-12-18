@@ -1,6 +1,14 @@
 # tools
 frontend tools
 
+### 0.1.4
+
+使用tsc，而不是webpack
+
+### 0.1.1
+
+更新webpack配置
+
 ### 0.0.9
 
 修复 data-clickid 重复 bug

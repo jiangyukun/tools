@@ -1,10 +1,12 @@
-let webpack = require('webpack')
-let config = require('./webpack.config')
+// let webpack = require('webpack')
+// let config = require('./webpack.config')
+//
+// console.time()
+// let compiler = webpack(config)
+//
+// compiler.run((err)=> {
+//     console.timeEnd()
+// })
 
 
-let compiler = webpack(config)
-
-compiler.run((err)=> {
-    console.log(err);
-})
-
+// tsc --outDir ../../lib/svg-to-antd-component

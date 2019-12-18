@@ -1,7 +1,6 @@
 let path = require('path')
 
-let buildIcon = require('../lib/index').default
-
+let buildIcon = require('../lib/svg-to-antd-component/index').default
 
 
 buildIcon({

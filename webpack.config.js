@@ -21,7 +21,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, './lib'),
-    filename: 'index.js',
+    filename: 'check-yield.js',
     libraryTarget: 'commonjs2'
   },
   module: {

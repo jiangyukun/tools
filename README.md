@@ -1,6 +1,9 @@
 # tools
 frontend tools
 
+### 0.1.8
+dva effects 函数有没有添加yield检测
+
 ### 0.1.4
 
 使用tsc，而不是webpack

@@ -46,7 +46,7 @@ class CodeAssistantPlugin {
                   const callee = node.callee
                   if (callNames.some(item=> item == callee.name)) {
                     if (path.parent.type != 'YieldExpression') {
-                      compilation.warnings.push(new Error(`${callee.name}没有添加yield`))
+                      compilation.warnings.push(new Error(`${callee.name}没有添加yield, ${moduleName}`))
                     }
                   }
                 }

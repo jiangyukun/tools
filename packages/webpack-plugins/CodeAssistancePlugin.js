@@ -2,6 +2,8 @@ let fs = require('fs')
 
 let { convertCodeUseAst } = require('../utils')
 
+const callNames = ['call', 'put' , 'select', 'take', 'fork', 'updateState', 'updateQuery', 'getState']
+
 class CodeAssistantPlugin {
   apply(compiler) {
     compiler.hooks.compilation.tap('CodeAssistantPlugin', (compilation) => {
@@ -11,7 +13,7 @@ class CodeAssistantPlugin {
   }
 
   checkYield(compilation) {
-    compilation.hooks.buildModule.tap('CheckYield', (module) => {
+    const checkModuleYield = (module) => {
       if (!module.userRequest) {
         return
       }
@@ -36,16 +38,15 @@ class CodeAssistantPlugin {
         }
         let code = buffer.toString()
         convertCodeUseAst(code, {
-          FunctionDeclaration(path) {
+          ObjectMethod(path) {
             if (path.node.generator) {
               path.traverse({
                 CallExpression(path) {
                   const node = path.node
                   const callee = node.callee
-                  if (callee.name == 'put') {
+                  if (callNames.some(item=> item == callee.name)) {
                     if (path.parent.type != 'YieldExpression') {
-                      // throw Error('put没有添加yield')
-                      compilation.warnings.push('put没有添加yield')
+                      compilation.warnings.push(new Error(`${callee.name}没有添加yield`))
                     }
                   }
                 }
@@ -54,11 +55,13 @@ class CodeAssistantPlugin {
           }
         }, module.userRequest)
       })
-    })
+    }
+    compilation.hooks.buildModule.tap('CheckYield', checkModuleYield)
+    compilation.hooks.rebuildModule.tap('CheckYield', checkModuleYield)
   }
 
   checkLine(compilation) {
-    compilation.hooks.buildModule.tap('TT', (module) => {
+    const checkModuleLine = (module) => {
       if (!module.userRequest) {
         return
       }
@@ -78,12 +81,14 @@ class CodeAssistantPlugin {
         let code = buffer.toString()
         let codeLine = code.split('\n').length
         if (codeLine > 300) {
-          compilation.warnings.push(`${module.userRequest}, ${codeLine}行，代码行数过长\n`)
-          // console.log(`${module.userRequest}, ${codeLine}行，代码行数过长\n`)
+          compilation.warnings.push(new Error(`${module.userRequest}, ${codeLine}行，代码行数过长\n`))
         }
       })
-    })
+    }
+    compilation.hooks.buildModule.tap('TT', checkModuleLine)
+    compilation.hooks.rebuildModule.tap('TT', checkModuleLine)
   }
+
 }
 
 module.exports = CodeAssistantPlugin

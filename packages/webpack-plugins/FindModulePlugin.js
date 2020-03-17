@@ -5,6 +5,7 @@ const {reserveFile} = require('../utils')
 module.exports = class FindModulePlugin {
   constructor(options) {
     this.options = options
+    this.printed = false
   }
 
   apply(compiler) {
@@ -21,6 +22,10 @@ module.exports = class FindModulePlugin {
     })
     compiler.hooks.compilation.tap('FindModulePlugin', (compilation) => {
       compilation.hooks.finishModules.tap('FindModulePlugin', (modules) => {
+        if (this.printed) {
+          return
+        }
+        this.printed = true
         modules.forEach(module => {
           if (module.userRequest && module.userRequest.indexOf('node_modules') == -1) {
             let index = files.indexOf(module.userRequest)

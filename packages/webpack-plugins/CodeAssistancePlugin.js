@@ -2,7 +2,7 @@ let fs = require('fs')
 
 let { convertCodeUseAst } = require('../utils')
 
-const callNames = ['call', 'put' , 'select', 'take', 'fork', 'updateState', 'updateQuery', 'getState']
+const callNames = ['call', 'put', 'select', 'take', 'fork', 'updateState', 'updateQuery', 'getState']
 
 class CodeAssistantPlugin {
   apply(compiler) {
@@ -37,23 +37,26 @@ class CodeAssistantPlugin {
           return
         }
         let code = buffer.toString()
-        convertCodeUseAst(code, {
-          ObjectMethod(path) {
-            if (path.node.generator) {
-              path.traverse({
-                CallExpression(path) {
-                  const node = path.node
-                  const callee = node.callee
-                  if (callNames.some(item=> item == callee.name)) {
-                    if (path.parent.type != 'YieldExpression') {
-                      compilation.warnings.push(new Error(`${callee.name}没有添加yield, ${moduleName}`))
+        try {
+          convertCodeUseAst(code, {
+            ObjectMethod(path) {
+              if (path.node.generator) {
+                path.traverse({
+                  CallExpression(path) {
+                    const node = path.node
+                    const callee = node.callee
+                    if (callNames.some(item => item == callee.name)) {
+                      if (path.parent.type != 'YieldExpression') {
+                        compilation.warnings.push(new Error(`${callee.name}没有添加yield, ${moduleName}`))
+                      }
                     }
                   }
-                }
-              })
+                })
+              }
             }
-          }
-        }, module.userRequest)
+          }, module.userRequest)
+        } catch (e) {
+        }
       })
     }
     compilation.hooks.buildModule.tap('CheckYield', checkModuleYield)

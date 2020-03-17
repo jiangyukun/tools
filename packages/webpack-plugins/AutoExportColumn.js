@@ -44,6 +44,9 @@ class AutoExportColumn {
     compiler.hooks.compilation.tap('AutoExportColumn', (compilation, { normalModuleFactory }) => {
       compilation.hooks.succeedModule.tap('AutoExportColumn', (module) => {
         let resource = module.resource
+        if (!resource) {
+          return
+        }
         if (resource.indexOf('node_modules') != -1) {
           return
         }
@@ -116,7 +119,7 @@ class AutoExportColumn {
                             return t.objectProperty(t.identifier(property.key), t.stringLiteral(property.value))
                           }
                           if (property.key == 'render') {
-                            return t.objectProperty(t.identifier(property.key), property.value)
+                            return t.objectProperty(t.identifier('renderE'), property.value)
                           }
                           throw new Error('未知property.key')
                         })

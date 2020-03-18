@@ -13,7 +13,7 @@ function handleJsxPath(path) {
     if (item.type == 'JSXText') {
       let value = item.value.replace(/[\n| ]/g, '')
       if (value != '') {
-        return t.stringLiteral(item.value)
+        return t.stringLiteral(value)
       }
     }
     if (item.type == 'JSXExpressionContainer') {
@@ -105,6 +105,7 @@ class AutoExportColumn {
                         }
                       })
                       arrayObjectList.push(objPropertyList)
+                      path2.skip()
                     }
                   })
                 }

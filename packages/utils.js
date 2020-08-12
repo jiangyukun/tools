@@ -18,27 +18,53 @@ function reserveFile(dir, callback) {
   })
 }
 
-function convertCodeUseAst(code, visitor, filePath) {
-  try {
-    const ast = recast.parse(code, {
-      parser: {
-        parse(source) {
-          return parser.parse(source, {
-            sourceType: 'module',
-            plugins: ['jsx', 'typescript', 'classProperties', 'optionalChaining'],
-            tokens: true
-          })
-        }
-      }
+function bootstrap(doConvert, getMatch) {
+  return function (dir, pathInfo) {
+    traverseAndSelect(dir, getMatch ? getMatch(pathInfo) : getDefaultMatch(pathInfo))((code, namespace, filePath) => {
+      return doConvert(code, namespace, filePath)
     })
-    traverse(ast, visitor)
-  } catch (e) {
-    console.log(filePath + '  -- parse failure')
-    throw e
+  }
+}
+
+const traverseAndSelect = (dir, match) => (callback) => {
+  reserveFile(dir, (filePath) => {
+    const result = match(filePath)
+    if (result) {
+      const namespace = result
+      const code = fs.readFileSync(filePath).toString()
+      let convertedCode = callback(code, namespace, filePath)
+      if (convertedCode == null) {
+        return
+      }
+      if (convertedCode != code) {
+        fs.writeFileSync(filePath, convertedCode, {})
+        // console.log(filePath, '  --converted')
+      }
+    }
+  })
+}
+
+function sepLine(dir, sub) {
+  return `${path.sep}${dir}${path.sep}${sub || ''}`
+}
+
+function getDefaultMatch(pathInfoList) {
+  return function (filePath) {
+    let list = pathInfoList.filter(item => filePath.indexOf(item.path) != -1)
+    if (list.length == 0) {
+      return
+    }
+    if (list.length == 1) {
+      return list[0].ns
+    } else {
+      console.log('多个模式匹配： ' + filePath)
+    }
+    return null
   }
 }
 
 module.exports = {
-  convertCodeUseAst,
-  reserveFile
+  reserveFile,
+  bootstrap,
+  sepLine
 }

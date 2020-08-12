@@ -1,5 +1,7 @@
 # tools
-frontend tools
+wanke frontend tools
+
+更新： i18n工具， 自动添加 utils.intl
 
 ### 0.1.8
 dva effects 函数有没有添加yield检测

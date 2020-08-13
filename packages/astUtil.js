@@ -11,7 +11,7 @@ function convertCodeUseAst(code, visitor, filePath) {
         parse(source) {
           return parser.parse(source, {
             sourceType: 'module',
-            plugins: ['jsx', 'typescript', 'classProperties', 'optionalChaining'],
+            plugins: ['jsx', 'typescript', 'classProperties', 'optionalChaining', 'nullishCoalescingOperator'],
             tokens: true
           })
         }

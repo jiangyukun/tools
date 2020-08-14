@@ -1,5 +1,4 @@
 const path = require('path')
-const {sepLine} = require('./utils')
 
 const projectRoot = ''
 

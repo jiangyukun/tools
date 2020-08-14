@@ -2,7 +2,7 @@ const path = require('path')
 const t = require('@babel/types')
 const {convertCodeUseAst, addImportItem, isModuleImported} = require('../astUtil')
 const {bootstrap, sepLine} = require('../utils')
-const {srcRoot, projectRoot} = require('../constants')
+const {srcRoot} = require('../constants')
 const zh = require('./zh')
 
 function convertFile(code, namespace, filePath) {
@@ -31,6 +31,9 @@ function convertFile(code, namespace, filePath) {
         },
         StringLiteral(stringPath) {
           let node = stringPath.node
+          if (stringPath.parent.type == 'ObjectProperty' && stringPath.parent.key.name == 'path') {
+            return
+          }
           let value = node.value
           if (value && value.match(/[\u4e00-\u9fa5]/)) {
             let d = replacePath(stringPath, value, filePath)
@@ -58,6 +61,7 @@ let handle = bootstrap(convertFile)
 handle(srcRoot, [
   {path: sepLine('components'), ns: 'empty'},
   {path: sepLine('container'), ns: 'empty'},
+  {path: sepLine('constants', 'propertyList.ts'), ns: 'empty'},
   {path: sepLine('core'), ns: 'empty'},
 ])
 

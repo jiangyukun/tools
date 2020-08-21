@@ -68,7 +68,7 @@ handle(srcRoot, [
 function replacePath(path, value, filePath) {
   let last = value.substring(value.length - 1)
   let parent = path.parent
-  if (parent.type == 'CallExpression') {
+  if (parent.type == 'CallExpression' && parent.callee.type == 'Identifier' && parent.callee.name == 'intl') {
     return false
   }
   if (last == ':' || last == '：') {

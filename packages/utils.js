@@ -56,10 +56,9 @@ function getDefaultMatch(pathInfoList) {
     }
     if (list.length == 1) {
       return list[0].ns
-    } else {
-      console.log('多个模式匹配： ' + filePath)
     }
-    return null
+    // console.log('多个模式匹配： ' + filePath)
+    return list[0].ns
   }
 }
 

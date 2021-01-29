@@ -5,11 +5,16 @@ const {bootstrap, sepLine} = require('../utils')
 const {srcRoot} = require('../constants')
 const zh = require('./zh')
 
+let notFoundList = []
+
 function convertFile(code, namespace, filePath) {
   if (filePath.indexOf('.ts') == -1 && filePath.indexOf('.tsx') == -1) {
     return
   }
   if (filePath.indexOf('graph.helper.ts') != -1) {
+    return
+  }
+  if (filePath.indexOf('shapes.ts') != -1) {
     return
   }
   if (filePath.indexOf('i18n') != -1) {
@@ -60,8 +65,10 @@ function convertFile(code, namespace, filePath) {
 let handle = bootstrap(convertFile)
 handle(srcRoot, [
   {path: sepLine('components'), ns: 'empty'},
+  {path: sepLine('business-components'), ns: 'empty'},
   {path: sepLine('container'), ns: 'empty'},
   {path: sepLine('constants', 'propertyList.ts'), ns: 'empty'},
+  {path: sepLine('constants', 'shapes.ts'), ns: 'empty'},
   {path: sepLine('core'), ns: 'empty'},
 ])
 
@@ -78,7 +85,10 @@ function replacePath(path, value, filePath) {
   }
   let key = Object.keys(zh).find(k => zh[k] == value)
   if (!key) {
-    console.log(`未找到对应的key：${value}   ${filePath}`)
+    if (notFoundList.indexOf(value) == -1) {
+      console.log(`未翻译   ${value} ${filePath}`)
+      notFoundList.push(value)
+    }
     return false
   } else {
     // console.log(key)

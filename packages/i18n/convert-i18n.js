@@ -88,5 +88,5 @@ function convertFile(code, namespace, filePath) {
 let handle = bootstrap(convertFile)
 
 handle(srcRoot, [
-  {path: sepLine('statistical-form', 'station-form'), ns: 'empty'},
+  {path: sepLine('common-basic-station', 'list'), ns: 'empty'},
 ])

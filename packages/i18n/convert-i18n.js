@@ -8,7 +8,9 @@ function replacePath(path, value) {
   let last = value.substring(value.length - 1)
   let parent = path.parent
   if (parent.type == 'CallExpression') {
-    return false
+    if (parent.callee.type == 'MemberExpression' && parent.callee.object.name == 'utils' && parent.callee.property.name == 'intl') {
+      return false
+    }
   }
   if (path.type == 'JSXText') {
     if (last == ':' || last == '：') {
@@ -88,5 +90,6 @@ function convertFile(code, namespace, filePath) {
 let handle = bootstrap(convertFile)
 
 handle(srcRoot, [
-  {path: sepLine('common-basic-station', 'list'), ns: 'empty'},
+  {path: sepLine('storage-run-strategy'), ns: 'abc'},
+  // {path: sepLine('storage-optimize'), ns: null},
 ])

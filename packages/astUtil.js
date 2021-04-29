@@ -50,25 +50,18 @@ function restObj(keys) {
 
 function isModuleImported(rootPath, moduleName, searchType = 'import') {
   let isImported = false
-  if (searchType == 'import' || searchType == 'all') {
-    rootPath.traverse({
-      ImportSpecifier(importPath) {
-        if (importPath.node.imported.name == moduleName) {
-          isImported = true
-        }
+  rootPath.traverse({
+    ImportSpecifier(importPath) {
+      if (importPath.node.imported.name == moduleName) {
+        isImported = true
       }
-    })
-  }
-  if (searchType == 'importDefault' || searchType == 'all') {
-    rootPath.traverse({
-      ImportDefaultSpecifier(importPath) {
-        if (importPath.node.local.name == moduleName) {
-          isImported = true
-        }
+    },
+    ImportDefaultSpecifier(importPath) {
+      if (importPath.node.local.name == moduleName) {
+        isImported = true
       }
-    })
-  }
-
+    }
+  })
   return isImported
 }
 

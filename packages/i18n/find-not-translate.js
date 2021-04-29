@@ -43,7 +43,7 @@ function convertFile(code, namespace, filePath) {
 let handle = bootstrap(convertFile)
 
 handle(srcRoot, [
-  {path: sepLine('storage-diagram-video'), ns: 'abc'},
+  {path: sepLine('storage-run-strategy'), ns: 'abc'},
   // {path: sepLine('storage-optimize'), ns: null},
 ])
 
